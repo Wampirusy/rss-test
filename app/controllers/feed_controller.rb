@@ -18,7 +18,13 @@ class FeedController < ActionController::Base
 	
 	def get
 		if feed = Feed.find(params['id'])
-			render :json => feed.last_articles(ITEMS_PER_PAGE, ITEMS_PER_PAGE * params['page'])
+			if params['page'].nil?
+				offset = 0
+			else
+				offset = ITEMS_PER_PAGE * params['page'].to_i
+			end
+			
+			render :json => feed.last_articles(ITEMS_PER_PAGE, offset)
 		else
 			raise 'feed not found'
 		end

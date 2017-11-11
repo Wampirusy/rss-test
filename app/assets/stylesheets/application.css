@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+#index {
+	width: 800px;
+	margin: auto;
+}
+
+#index header {
+	width: 800px;
+	position: fixed;
+}
+
+#url {
+	width: 100%;
+}
+
+#feed {
+	padding-top: 40px;
+}
