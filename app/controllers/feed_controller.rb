@@ -1,12 +1,12 @@
 class FeedController < ActionController::Base
-	ITEMS_PER_PAGE = 3
+	ITEMS_PER_PAGE = 10
 	
 	def add		
-		if params['url'].nil?
+		if params[:url].nil?
 			raise "incorrect request"
 		else
-			if !feed = Feed.find_by_url(params['url'])
-				feed = Feed.new({:url => params['url']})
+			if !feed = Feed.find_by_url(params[:url])
+				feed = Feed.new({:url => params[:url]})
 				feed.save
 			end
 			
@@ -17,16 +17,19 @@ class FeedController < ActionController::Base
 	end
 	
 	def get
-		if feed = Feed.find(params['id'])
-			if params['page'].nil?
-				offset = 0
-			else
-				offset = ITEMS_PER_PAGE * params['page'].to_i
-			end
-			
-			render :json => feed.last_articles(ITEMS_PER_PAGE, offset)
+		if feed = Feed.find(params[:id])
+			render :json => feed.last_articles(limit, offset)
 		else
 			raise 'feed not found'
 		end
+	end
+	
+	protected
+	def limit
+		ITEMS_PER_PAGE
+	end
+	
+	def offset
+		ITEMS_PER_PAGE * params[:page].to_i
 	end
 end

@@ -31,6 +31,12 @@ $(function () {
 			articles.forEach(function (article) {
 				$('#feed').append(drowArticle(article));
 			});
+			
+			if (articles.length > 0) {
+				$('#more').show();
+			} else {
+				$('#more').hide();
+			}
 		});
 		
 		page++;
